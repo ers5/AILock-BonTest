@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AILock 관리 콘솔</title>
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+<div class="topbar-shell">
+    <header class="topbar">
+        <div class="mobile-nav-current">
+            <button type="button" id="mobileNavTrigger" class="text-button mobile-nav-trigger" aria-label="관리 메뉴 열기" aria-expanded="false" aria-controls="mobileNavMenu">상태 +</button>
+        </div>
+        <nav class="main-nav" aria-label="관리 메뉴">
+            <button type="button" class="text-button nav-button is-selected" data-view="overview">상태</button>
+            <button type="button" class="text-button nav-button" data-view="devices">기기</button>
+        </nav>
+        <div class="topbar-actions">
+            <time id="generatedAt" class="exact-time is-pending" aria-live="polite">
+                <span id="generatedDate">0000.00.00</span>
+                <span id="generatedTime">00:00:00</span>
+            </time>
+            <button type="button" id="refreshButton" class="icon-button" aria-label="새로고침" title="새로고침">
+                <span aria-hidden="true">↻</span>
+            </button>
+        </div>
+    </header>
+    <nav id="mobileNavMenu" class="mobile-nav-menu" aria-label="모바일 관리 메뉴" hidden>
+        <button type="button" class="text-button mobile-nav-option is-selected" data-view="overview">상태</button>
+        <button type="button" class="text-button mobile-nav-option" data-view="devices">기기</button>
+    </nav>
+</div>
+
+<main>
+    <section id="overviewView" class="view is-active" aria-labelledby="overviewTitle">
+        <div class="page-heading">
+            <h1 id="overviewTitle">상태</h1>
+        </div>
+        <div class="metrics" id="overviewMetrics"></div>
+    </section>
+
+    <section id="devicesView" class="view" aria-labelledby="devicesTitle">
+        <div class="page-heading">
+            <h1 id="devicesTitle">기기</h1>
+        </div>
+        <div id="deviceWorkspace" class="device-workspace" data-mobile-stage="devices">
+            <aside class="workspace-column device-column" aria-labelledby="deviceListTitle">
+                <div class="panel-header">
+                    <h2 id="deviceListTitle">등록된 기기</h2>
+                    <span id="deviceCount" class="panel-meta"></span>
+                </div>
+                <div id="deviceList" class="select-list"></div>
+            </aside>
+
+            <aside class="workspace-column session-column" aria-labelledby="sessionListTitle">
+                <div class="panel-header">
+                    <button type="button" id="sessionBackButton" class="text-button mobile-back" aria-label="등록된 기기로 돌아가기" title="등록된 기기로 돌아가기">&lt;</button>
+                    <h2 id="sessionListTitle">잠금 세션</h2>
+                    <span id="sessionCount" class="panel-meta">0개</span>
+                </div>
+                <div id="sessionList" class="select-list">
+                    <div class="empty-message">기기를 선택하면 잠금 세션이 표시됩니다.</div>
+                </div>
+            </aside>
+
+            <section class="conversation-column" aria-labelledby="conversationTitle">
+                <div class="panel-header conversation-heading">
+                    <button type="button" id="conversationBackButton" class="text-button mobile-back" aria-label="잠금 세션으로 돌아가기" title="잠금 세션으로 돌아가기">&lt;</button>
+                    <h2 id="conversationTitle">대화</h2>
+                    <span id="conversationStatus" class="status-text" hidden></span>
+                </div>
+                <div id="conversationList" class="conversation-list">
+                    <div class="empty-message">세션을 선택하면 사용자와 AI의 대화가 시간순으로 표시됩니다.</div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+</main>
+
+<dialog id="detailDialog" class="detail-dialog">
+    <div class="dialog-heading">
+        <div>
+            <h2 id="detailTitle">대화 상세</h2>
+            <p id="detailSubtitle"></p>
+        </div>
+        <button type="button" id="closeDetail" class="secondary-button">닫기</button>
+    </div>
+    <div class="detail-tabs" role="tablist" aria-label="상세 정보 형식">
+        <button type="button" class="text-button detail-tab is-selected" data-detail-view="summary">판단 요약</button>
+        <button type="button" class="text-button detail-tab" data-detail-view="json">JSON</button>
+    </div>
+    <div id="detailSummary" class="detail-content"></div>
+    <pre id="detailJson" class="detail-content json-view" hidden></pre>
+</dialog>
+
+<div id="systemMessage" class="system-message" role="status" aria-live="polite" hidden></div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>

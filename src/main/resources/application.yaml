@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ailock}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: false
+
+  profiles:
+    active: llm
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        model: gpt-5.4-mini
+      embedding:
+        model: text-embedding-3-small
+
+logging:
+  level:
+    root: INFO
+    sajo: INFO
+    org.hibernate.SQL: OFF
+    org.hibernate.orm.jdbc.bind: OFF
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+    org.springframework.jdbc.core: OFF
+    org.springframework.jdbc.core.JdbcTemplate: OFF
+    org.springframework.jdbc.core.StatementCreatorUtils: OFF
+
+feature:
+  abuse-hard-reject-enabled: false
+
+admin:
+  auth:
+    password: ${ADMIN_PASSWORD}
+
+server:
+  servlet:
+    session:
+      timeout: 8h
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+        same-site: strict
+        secure: false
